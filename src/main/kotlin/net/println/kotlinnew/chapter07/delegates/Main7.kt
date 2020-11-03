@@ -4,6 +4,8 @@ package net.println.kotlinnew.chapter07.delegates
  *
  * @author zhangkun
  * @time 2020/6/11 7:23 下午
+ *
+ * 接口代理
  */
 
 class SuperArray<E>(

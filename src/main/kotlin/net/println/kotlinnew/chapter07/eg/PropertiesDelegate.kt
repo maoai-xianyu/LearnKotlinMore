@@ -6,6 +6,9 @@ import java.net.URL
 import java.util.*
 import kotlin.reflect.KProperty
 
+/**
+ * 属性代理，getValue 和 setValue 是操作符
+ */
 class PropertiesDelegate(private val path: String, private val defaultValue: String = ""){
 
     private lateinit var url: URL
