@@ -4,6 +4,9 @@ package net.println.kotlinnew.chapter08.unsafevariances
  *
  * @author zhangkun
  * @time 2020/10/28 11:59 下午
+ *
+ *
+ * @UnsafeVariance
  */
 
 fun main() {
