@@ -13,7 +13,7 @@ fun main() {
     val mapCls = Map::class
     println(mapCls)
     val mapType = typeOf<Map<String, Int>>()
-
+    // 获取泛型实参
     mapType.arguments.forEach {
         println(it)
     }
@@ -26,8 +26,8 @@ object B {
 }
 
 class A {
+    // 有两个receiver
     fun String.hello(){
-
     }
 }
 
