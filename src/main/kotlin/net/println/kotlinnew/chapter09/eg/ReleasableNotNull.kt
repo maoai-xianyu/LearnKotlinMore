@@ -34,6 +34,7 @@ class ReleasableNotNull<T: Any>: ReadWriteProperty<Any, T> {
 inline val KProperty0<*>.isInitialized: Boolean
     get() {
         isAccessible = true
+        // 用到反射，这个是反射库中的方法
         return (this.getDelegate() as? ReleasableNotNull<*>)?.isInitialized()
             ?: throw IllegalAccessException("Delegate is not an instance of ReleasableNotNull or is null.")
     }

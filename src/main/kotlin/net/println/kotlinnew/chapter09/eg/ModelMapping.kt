@@ -4,6 +4,7 @@ import java.lang.IllegalArgumentException
 import kotlin.reflect.full.memberProperties
 import kotlin.reflect.full.primaryConstructor
 
+// 用数据类的属性去查找对应map或者UserDTO属性
 //mapping fields. Using Annotations next chapter.
 data class UserVO(val login: String, val avatarUrl: String)
 
@@ -27,6 +28,8 @@ fun main() {
     val userVO: UserVO = userDTO.mapAs()
     println(userVO)
 
+    println("----------")
+
     val userMap = mapOf(
         "id" to 0,
         "login" to "Bennyhuo",
@@ -39,17 +42,32 @@ fun main() {
 }
 
 inline fun <reified From : Any, reified To : Any> From.mapAs(): To {
-    return From::class.memberProperties.map { it.name to it.get(this) }
-        .toMap().mapAs()
+    /*return From::class.memberProperties.map { it.name to it.get(this) }
+        .toMap().mapAs()*/
+    // 转换
+    val toMap = From::class.memberProperties.map { it.name to it.get(this) }
+        .toMap()
+    return To::class.primaryConstructor!!.let {
+        // 参数
+        it.parameters.map { parameter ->
+            parameter to (toMap[parameter.name] ?: if (parameter.type.isMarkedNullable) null
+            else throw IllegalArgumentException("${parameter.name} is required but missing."))
+        }.toMap().let(it::callBy)
+    }
 }
 
+// reified 具体化
 inline fun <reified To : Any> Map<String, Any?>.mapAs(): To {
+    // 主构造器，数据类
     return To::class.primaryConstructor!!.let {
-        it.parameters.map {
-            parameter ->
-            parameter to (this[parameter.name] ?: if(parameter.type.isMarkedNullable) null
+        // 参数
+        it.parameters.map { parameter ->
+            println("parameter $parameter")
+            println("parameter.name ${parameter.name}")
+            println("parameter.name value ${this[parameter.name]}")
+            println("parameter.type ${parameter.type.isMarkedNullable}")
+            parameter to (this[parameter.name] ?: if (parameter.type.isMarkedNullable) null
             else throw IllegalArgumentException("${parameter.name} is required but missing."))
-        }.toMap()
-            .let(it::callBy)
+        }.toMap().let(it::callBy) // it 代表的是 primaryConstructor
     }
 }
