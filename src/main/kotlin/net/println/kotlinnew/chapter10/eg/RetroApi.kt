@@ -1,14 +1,12 @@
-package com.bennyhuo.kotlin.annotations.eg
+package net.println.kotlinnew.chapter10.eg
 
 import com.google.gson.Gson
 import com.google.gson.stream.JsonReader
 import okhttp3.OkHttpClient
 import okhttp3.Request
-import java.lang.IllegalArgumentException
 import java.lang.StringBuilder
 import java.lang.reflect.Proxy
 import kotlin.reflect.full.findAnnotation
-import kotlin.reflect.full.findParameterByName
 import kotlin.reflect.full.functions
 import kotlin.reflect.full.valueParameters
 
