@@ -39,8 +39,8 @@ fun main() {
 
     val seq = nums(10)
 
-    for (j in seq) {
+    /*for (j in seq) {
         println(j)
-    }
+    }*/
 
 }
