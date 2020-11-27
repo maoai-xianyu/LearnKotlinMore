@@ -9,12 +9,12 @@ import java.lang.reflect.Parameter
  */
 
 interface Generator<T> {
-    operator fun iterator(): Iterable<T>
+    operator fun iterator(): Iterator<T>
 }
 
 class GeneratorImpl<T>(private val block: suspend GeneratorScope<T>.(T) -> Unit, private val parameter: T) :
     Generator<T> {
-    override fun iterator(): Iterable<T> {
+    override fun iterator(): Iterator<T> {
         TODO("Not yet implemented")
     }
 }
@@ -39,8 +39,8 @@ fun main() {
 
     val seq = nums(10)
 
-    /*for (j in seq) {
+    for (j in seq) {
         println(j)
-    }*/
+    }
 
 }
