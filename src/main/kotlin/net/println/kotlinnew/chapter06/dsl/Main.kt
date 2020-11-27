@@ -9,7 +9,7 @@ import java.io.File
  */
 
 fun main(args: Array<String>) {
-    val htmlContent = html {
+    val htmlContent = html{
         head {
             "meta" { "charset"("UTF_8") }
         }
