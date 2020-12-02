@@ -23,13 +23,15 @@ class GeneratorImpl<T>(private val block: suspend GeneratorScope<T>.(T) -> Unit,
 }
 
 // 有值状态的类，用在value上
-sealed class Status{
+sealed class State {
 
     // 没有准备好，需要一个协程体继续执行
-    class NotReady(val continuation: Continuation<Unit>):Status()
+    class NotReady(val continuation: Continuation<Unit>) : State()
 
     // 准备好，有值了，就是执行yeild之后
-    class Ready<T>()
+    class Ready<T>(val continuation: Continuation<Unit>, val nextValue: T) : State()
+
+    object Done : State()
 
 }
 
@@ -37,11 +39,14 @@ class GeneratorIterator<T>(private val block: suspend GeneratorScope<T>.(T) -> U
     GeneratorScope<T>(), Iterator<T>, Continuation<Any?> {
     override val context: CoroutineContext = EmptyCoroutineContext
 
+    private var state: State
+
     // 启动协程
     init {
         // 将有参数输入的 suspend GeneratorScope<T>.(T) -> Unit 转换为 没有参数的  GeneratorScope<T>.() -> Unit
         val coroutineBlock: suspend GeneratorScope<T>.() -> Unit = { block(parameter) }
         val start = coroutineBlock.createCoroutine(this, this)
+        state = State.NotReady(start)
 
     }
 
