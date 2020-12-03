@@ -1,9 +1,6 @@
 package net.println.kotlinnew.chapter11.python
 
-import kotlin.coroutines.Continuation
-import kotlin.coroutines.CoroutineContext
-import kotlin.coroutines.EmptyCoroutineContext
-import kotlin.coroutines.createCoroutine
+import kotlin.coroutines.*
 
 /**
  *
@@ -39,34 +36,59 @@ class GeneratorIterator<T>(private val block: suspend GeneratorScope<T>.(T) -> U
     GeneratorScope<T>(), Iterator<T>, Continuation<Any?> {
     override val context: CoroutineContext = EmptyCoroutineContext
 
+    // 没有切换线程，线程不安全
     private var state: State
 
     // 启动协程
     init {
         // 将有参数输入的 suspend GeneratorScope<T>.(T) -> Unit 转换为 没有参数的  GeneratorScope<T>.() -> Unit
         val coroutineBlock: suspend GeneratorScope<T>.() -> Unit = { block(parameter) }
+        // 启动协程，创建了协程，不需要立即启动。需要别人先来调用我，resume。第二个参数标记协程是否执行完
         val start = coroutineBlock.createCoroutine(this, this)
         state = State.NotReady(start)
-
     }
 
 
-    override suspend fun yield(value: T) {
-        TODO("Not yet implemented")
+    override suspend fun yield(value: T) = suspendCoroutine<Unit> { continuation ->
+        state = when (state) {
+            is State.NotReady -> State.Ready(continuation, value)
+            is State.Ready<*> -> throw IllegalAccessException("cannot yield a value while ready")
+            State.Done -> throw IllegalAccessException("cannot yield a value while done")
+        }
+    }
+
+    private fun resume() {
+        when (val currentState = state) {
+            is State.NotReady -> currentState.continuation.resume(Unit)
+        }
     }
 
     override fun hasNext(): Boolean {
-        TODO("Not yet implemented")
+        resume()
+        return state != State.Done
     }
 
     // 返回下一次yield 需要参数 value
     override fun next(): T {
-        TODO("Not yet implemented")
+        return when (val currentState = state) {
+            is State.NotReady -> {
+                resume()
+                return next()
+            }
+            is State.Ready<*> -> {
+                // 状态扭转
+                state = State.NotReady(currentState.continuation)
+                (currentState as State.Ready<T>).nextValue
+            }
+            State.Done -> throw IndexOutOfBoundsException("No value left.")
+        }
     }
 
 
     override fun resumeWith(result: Result<Any?>) {
-        TODO("Not yet implemented")
+        // 状态扭转
+        state = State.Done
+        result.getOrThrow()
     }
 }
 
