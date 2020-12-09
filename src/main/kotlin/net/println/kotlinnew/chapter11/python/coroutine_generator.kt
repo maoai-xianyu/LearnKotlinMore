@@ -52,6 +52,7 @@ class GeneratorIterator<T>(private val block: suspend GeneratorScope<T>.(T) -> U
     override suspend fun yield(value: T) = suspendCoroutine<Unit> { continuation ->
         println("yield 前  $state")
         state = when (state) {
+            // 挂起
             is State.NotReady -> State.Ready(continuation, value)
             is State.Ready<*> -> throw IllegalAccessException("cannot yield a value while ready")
             State.Done -> throw IllegalAccessException("cannot yield a value while done")
@@ -62,7 +63,11 @@ class GeneratorIterator<T>(private val block: suspend GeneratorScope<T>.(T) -> U
     private fun resume() {
         println("resume  $state")
         when (val currentState = state) {
-            is State.NotReady -> currentState.continuation.resume(Unit)
+            // 调用挂起函数
+            is State.NotReady -> {
+                println("启动 协程")
+                currentState.continuation.resume(Unit);
+            }
         }
     }
 
@@ -96,6 +101,7 @@ class GeneratorIterator<T>(private val block: suspend GeneratorScope<T>.(T) -> U
 
 
     override fun resumeWith(result: Result<Any?>) {
+        println("")
         println("resumeWith 前 $state")
         // 状态扭转
         state = State.Done
@@ -118,7 +124,7 @@ fun <T> generator(block: suspend GeneratorScope<T>.(T) -> Unit): (T) -> Generato
 
 fun main() {
     val nums = generator { start: Int ->
-        for (i in 0..5) {
+        for (i in 0..2) {
             println("yield")
             yield(start + i)
         }
