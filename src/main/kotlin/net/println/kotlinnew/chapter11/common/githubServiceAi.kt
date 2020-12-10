@@ -40,7 +40,7 @@ interface GitHubApi {
     fun getUserCallback(@Path("login") login: String): Call<User>
 
     @GET("users/{login}")
-    suspend fun getUserSuspend(@Path("login") login: String): Call<User>
+    suspend fun getUserSuspend(@Path("login") login: String): User
 
 }
 

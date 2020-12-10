@@ -44,6 +44,7 @@ dependencies {
     implementation "com.squareup.moshi:moshi-kotlin:1.8.0" // for KotlinJsonAdapterFactory
     kapt "com.squareup.moshi:moshi-kotlin-codegen:1.8.0"
     implementation "joda-time:joda-time:2.10"
+    implementation 'org.jetbrains.kotlinx:kotlinx-coroutines-core:1.4.1'
 }
 
 compileKotlin {
