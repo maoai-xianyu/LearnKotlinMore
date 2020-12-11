@@ -5,6 +5,7 @@ import kotlinx.coroutines.launch
 import net.println.kotlinnew.chapter11.utils.log
 import retrofit2.Call
 import retrofit2.Callback
+import retrofit2.HttpException
 import retrofit2.Response
 import java.lang.Exception
 import kotlin.coroutines.*
@@ -77,7 +78,7 @@ suspend fun suspendLoopMap() {
 
 
 
-suspend fun getUserSuspend(name:String) = suspendCoroutine<Unit> {
+suspend fun getUserSuspend(name:String) = suspendCoroutine<User> {
     continuation ->
     getGitHubApi.getUserCallback(name).enqueue(object :Callback<User>{
         override fun onFailure(call: Call<User>, t: Throwable) {
@@ -85,6 +86,7 @@ suspend fun getUserSuspend(name:String) = suspendCoroutine<Unit> {
         }
 
         override fun onResponse(call: Call<User>, response: Response<User>) {
+            println(" suspendCoroutine success")
             response.takeIf { it.isSuccessful }?.body()?.let(continuation::resume)
                 ?: continuation.resumeWithException(NullPointerException())
         }
@@ -121,5 +123,7 @@ suspend fun main() {
             log("createCoroutine  $result")
         }
     }).resume(Unit)
+
+    getUserSuspend("maoai-xianyu")
 
 }
