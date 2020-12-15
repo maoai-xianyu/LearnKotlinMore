@@ -1,6 +1,7 @@
 package net.println.kotlinnew.chapter11.lua
 
 import net.println.kotlinnew.chapter11.utils.Logger
+import java.util.concurrent.Executors
 import java.util.concurrent.atomic.AtomicReference
 import kotlin.coroutines.*
 
@@ -138,21 +139,31 @@ class Coroutine<P, R>(
     }
 }
 
-
+// 拦截器
 class Dispatcher : ContinuationInterceptor {
     override val key = ContinuationInterceptor
 
+    // 切换线程
     override fun <T> interceptContinuation(continuation: Continuation<T>): Continuation<T> {
-        TODO("Not yet implemented")
+        return DispatcherContinuation(continuation)
     }
 }
 
-class DispatcherContinuation<T>(val continuation: Continuation<T>) : Continuation<T> {
-    override val context: CoroutineContext
-        get() = TODO("Not yet implemented")
+class DispatcherContinuation<T>(val continuation: Continuation<T>) : Continuation<T> by continuation {
 
+    // 可以使用接口代理
+    /*override val context: CoroutineContext
+        get() = continuation.context*/
+
+    // 程序没有结束，是因为newSingleThreadExecutor 没有传入 factory，可以控制结束
+    private val executor = Executors.newSingleThreadExecutor()
+
+    //切换线程
     override fun resumeWith(result: Result<T>) {
-        TODO("Not yet implemented")
+        executor.submit {
+            Logger.debug("线程拦截")
+            continuation.resumeWith(result)
+        }
     }
 
 }
@@ -160,7 +171,7 @@ class DispatcherContinuation<T>(val continuation: Continuation<T>) : Continuatio
 
 suspend fun main() {
     Logger.debug("producer 创建")
-    val producer = Coroutine.create<Unit, Int>() {
+    val producer = Coroutine.create<Unit, Int>(Dispatcher()) {
         for (i in 0..3) {
             Logger.debug("producer send  $i")
             yield(i)
@@ -169,7 +180,7 @@ suspend fun main() {
     }
 
     Logger.debug("consumer 创建")
-    val consumer = Coroutine.create<Int, Unit>() { param: Int ->
+    val consumer = Coroutine.create<Int, Unit>(Dispatcher()) { param: Int ->
         Logger.debug("consumer start  $param")
         for (i in 0..3) {
             val value = yield(Unit)
@@ -181,4 +192,5 @@ suspend fun main() {
         val result = producer.resume(Unit)
         consumer.resume(result)
     }
+    // 目前的结果是 创建了很多的线程，有点不对哦
 }
