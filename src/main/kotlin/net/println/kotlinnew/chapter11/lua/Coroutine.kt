@@ -136,7 +136,24 @@ class Coroutine<P, R>(
 
         }
     }
+}
 
+
+class Dispatcher : ContinuationInterceptor {
+    override val key = ContinuationInterceptor
+
+    override fun <T> interceptContinuation(continuation: Continuation<T>): Continuation<T> {
+        TODO("Not yet implemented")
+    }
+}
+
+class DispatcherContinuation<T>(val continuation: Continuation<T>) : Continuation<T> {
+    override val context: CoroutineContext
+        get() = TODO("Not yet implemented")
+
+    override fun resumeWith(result: Result<T>) {
+        TODO("Not yet implemented")
+    }
 
 }
 
