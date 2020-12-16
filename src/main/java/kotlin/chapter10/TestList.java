@@ -1,12 +1,10 @@
 package kotlin.chapter10;
 
 import org.apache.commons.beanutils.BeanUtils;
-import org.apache.commons.collections4.CollectionUtils;
+import org.apache.commons.collections.CollectionUtils;
 
 import java.io.*;
-import java.lang.reflect.InvocationTargetException;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
 
@@ -15,6 +13,7 @@ public class TestList {
     public static void main(String[] args) {
         modelCopy();
         coll();
+        collDeepNew();
         collDeep();
         collBeautiful();
 
@@ -62,7 +61,7 @@ public class TestList {
     }
 
     private static void coll() {
-        System.out.println("CollectionUtils -------- 浅拷贝");
+        System.out.println("CollectionUtils -------- 需要对新改的数据进行重新赋值");
 
         List<PP> listP = new ArrayList<>();
         for (int i = 0; i < 10; i++) {
@@ -70,18 +69,68 @@ public class TestList {
         }
 
         //list深度拷贝
-        List<PP> newListP = new ArrayList<>();
-        CollectionUtils.addAll(newListP, listP);
+        List<PP> newListP = new ArrayList<>(listP.size());
+        CollectionUtils.addAll(newListP, new Object[listP.size()]);
         Collections.copy(newListP, listP);
         for (int i = 0; i < newListP.size(); i++) {
             if (i == 1) {
-                newListP.get(i).name = "zhang";
+                PP pp = new PP(newListP.get(i).id, newListP.get(i).name);
+                pp.name = "zhang";
+                newListP.set(i, pp);
                 break;
             }
         }
-
         System.out.println("原list值：" + listP);
         System.out.println("新list值：" + newListP);
+
+        System.out.println("---------------------");
+
+
+        List<Integer> list = new ArrayList<>();
+        for (int i = 0; i < 10; i++) {
+            list.add(i);
+        }
+
+        //list深度拷贝
+        List<Integer> newList = new ArrayList<>();
+        CollectionUtils.addAll(newList, new Object[list.size()]);
+        Collections.copy(newList, list);
+        newList.set(0, 10);
+
+        System.out.println("原list值：" + list);
+        System.out.println("新list值：" + newList);
+    }
+
+
+    private static void collDeepNew() {
+        System.out.println("循环赋值 创建新的对象 -------");
+
+        ArrayList<PP> listP = new ArrayList<>();
+        for (int i = 0; i < 10; i++) {
+            listP.add(new PP(i, "i " + i));
+        }
+
+        ArrayList<PP> newListP = (ArrayList<PP>) listP.clone();
+        System.out.println(" newListP == listP 前" + (newListP == listP));
+        if (newListP != null) {
+            for (int i = 0; i < newListP.size(); i++) {
+                if (i == 1) {
+                    PP pp = new PP(newListP.get(i).id, newListP.get(i).name);
+                    pp.name = "zhang";
+                    newListP.set(i, pp);
+                    break;
+                }
+            }
+            System.out.println(" newListP == listP 后" + (newListP == listP));
+
+            System.out.println("---------------------");
+            System.out.println("循环赋值 原list值：" + listP);
+            System.out.println("循环赋值 新list值：" + newListP);
+        }
+
+
+        System.out.println("---------------------");
+
     }
 
 
