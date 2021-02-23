@@ -1,10 +1,8 @@
 package net.println.kotlinnew.chapter07.eg.json.ks
 
-import kotlinx.serialization.ImplicitReflectionSerializer
-import kotlinx.serialization.Serializable
+import kotlinx.serialization.*
 import kotlinx.serialization.json.Json
-import kotlinx.serialization.parse
-import kotlinx.serialization.stringify
+import kotlinx.serialization.json.Json.Default.encodeToString
 
 //Kotlinx.serialization
 
@@ -12,10 +10,9 @@ import kotlinx.serialization.stringify
 data class Person(val name: String, val age: Int)
 
 
-@ImplicitReflectionSerializer
 fun main(){
-    println(Json.stringify(Person("Benny Huo", 20)))
-    println(Json.parse<Person>("""{"name":"Benny Huo","age":20}"""))
+    println(Json.encodeToString(Person("Benny Huo", 20)))
+    println(Json.decodeFromString<Person>("""{"name":"Benny Huo","age":20}"""))
 }
 
 //output:
