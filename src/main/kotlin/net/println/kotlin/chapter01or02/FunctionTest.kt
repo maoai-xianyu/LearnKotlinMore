@@ -47,12 +47,32 @@ fun main(args: Array<String>): Unit { // ( Array<String>)->Unit
         println(it)
     }
     println("--------------")
-    arr.forEach {
+    /*arr.forEach {
         if (it == 2) return
         println(it)
-    }
+    }*/
     println("结束")
 
+    println("-------")
+
+
+    val a = a(b)
+    println("a $a")
+
+    val am = am(fun(param: Int): String {
+        return param.toString()
+    })
+    println("am $am")
+    println("am ${am(::bb)}")
+
+    val dddd = ::bb
+    println(dddd(1))
+
+
+    println(d(33))
+    println(dd(32))
+
+    aaa(1);
 }
 
 fun printUsemsg() {
@@ -88,4 +108,37 @@ var sum3 = { arg1: Int, arg2: Int ->
     arg1 + arg2
 }
 // (Int,Int)->Int
+
+
+fun a(str: (String) -> String): String {
+    return str.toString()
+}
+
+fun bb(param: Int): String {
+    return param.toString()
+}
+
+val b = { str: String -> str }
+
+fun am(funParam: (Int) -> String): String {
+    return funParam(1)
+}
+
+
+val d = fun(param: Int): String {
+    return param.toString()
+}
+
+val dd = { param:Int -> param.toString()}
+
+val ddd :(Int) -> String = {
+    it.toString()
+}
+
+val aaa = fun (param: Int): String {
+    return param.toString()
+}
+
+
+
 

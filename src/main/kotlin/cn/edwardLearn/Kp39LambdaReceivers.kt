@@ -16,6 +16,18 @@ fun countTo50(): String {
     return numbers.toString()
 }
 
+fun countTo50Test(str:String,str2:String): String {
+
+    val numbers = StringBuilder()
+
+    for (i in 1..49) {
+        numbers.append(i)
+        numbers.append(",")
+    }
+    numbers.append(50)
+    return numbers.toString()
+}
+
 
 fun countTo50with(): String {
     val numbers = StringBuilder()
@@ -54,8 +66,16 @@ fun countTo50ApplyExpression(): String = StringBuilder().apply {
 fun main(args: Array<String>) {
 
     println(::countTo50)
+    println((::countTo50)())
     println(countTo50())
     println("---------------------")
+
+    println(::countTo50Test)
+    println((::countTo50Test)("ssss","sss"))
+
+
+    println("---------------------")
+
 
     println(countTo50with())
 
