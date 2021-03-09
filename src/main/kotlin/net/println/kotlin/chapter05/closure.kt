@@ -22,8 +22,11 @@ fun fibonacc(): () -> Long {
     var second = 1L
     return fun(): Long {
         val result = second
+        println(" --- result $result")
         second += first
+        println(" --- second $second")
         first = second - first
+        println(" --- first $first")
         return result
     }
 }

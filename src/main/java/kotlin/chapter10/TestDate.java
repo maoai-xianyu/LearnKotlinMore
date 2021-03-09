@@ -19,11 +19,30 @@ public class TestDate {
     public static void main(String[] args) {
 
 
-        long sss = 123123123132L /1000;
-        System.out.println("ssss "+sss);
+        int a = 2147483645;
+
+        System.out.println(Integer.MAX_VALUE);
+
+
+        System.out.println("" + (Integer.MAX_VALUE - a));
+
+        int b = a+10;
+        System.out.println(b);
+
+        if (a + 10 > Integer.MAX_VALUE) {
+            a = Integer.MAX_VALUE;
+        } else {
+            a = a + 1;
+        }
+
+        System.out.println("----" + a);
+
+
+        long sss = 123123123132L / 1000;
+        System.out.println("ssss " + sss);
 
         long date1 = System.currentTimeMillis();
-        System.out.println("date2 "+date1);
+        System.out.println("date2 " + date1);
         Date date = new Date(date1);
         String format = format(date);
         System.out.println(format);
