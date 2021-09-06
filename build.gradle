@@ -18,7 +18,7 @@ apply plugin: "kotlin"
 apply plugin: "kotlin-noarg"
 apply plugin: "kotlin-allopen"
 
-/* 也就是说 如果数据类被 PoKo 修饰 ，会将数据类的 final 去掉，可以继承，同时生成一个无参数的默认构造方法*/
+/* 也就是说 如果数据类被 PoKo 修饰 ，会将数据类的 final 去掉，可以继承，同时 生成一个无参数的默认构造方法*/
 noArg{
     //invokeInitializers = true   用于初始化构造函数中的 init 块
     annotation("net.println.kotlin.chapter04.annotations.PoKo")
@@ -30,6 +30,7 @@ allOpen{
 
 repositories {
     jcenter()
+    mavenCentral()
 }
 
 dependencies {

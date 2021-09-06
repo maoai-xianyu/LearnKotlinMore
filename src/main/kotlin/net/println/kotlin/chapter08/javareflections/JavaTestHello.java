@@ -15,5 +15,7 @@ public class JavaTestHello {
         } catch (Exception e) {
             e.printStackTrace();
         }
+
+        String usl = "meituanmovie://www.meituan.com/web?url=https://i.maoyan.com/asgard/board?id=26&year=2021&term=2";
     }
 }
