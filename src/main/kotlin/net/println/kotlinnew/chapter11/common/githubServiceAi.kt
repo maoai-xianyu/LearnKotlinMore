@@ -5,6 +5,7 @@ import net.println.kotlinnew.chapter10.eg.RetroApi
 import net.println.kotlinnew.chapter11.utils.log
 import okhttp3.Interceptor
 import okhttp3.OkHttpClient
+import okhttp3.ResponseBody
 import retrofit2.Call
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
@@ -41,6 +42,9 @@ interface GitHubApi {
 
     @GET("users/{login}")
     suspend fun getUserSuspend(@Path("login") login: String): User
+
+    @GET("https://avatars.githubusercontent.com/u/17868022?v=4")
+    suspend fun getUserImage(): ResponseBody
 
 }
 

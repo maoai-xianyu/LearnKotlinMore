@@ -165,7 +165,6 @@ class DispatcherContinuation<T>(val continuation: Continuation<T>) : Continuatio
             continuation.resumeWith(result)
         }
     }
-
 }
 
 
@@ -190,6 +189,7 @@ suspend fun main() {
 
     while (producer.isActive && consumer.isActive) {
         val result = producer.resume(Unit)
+        Logger.debug("获取结果，执行 consumer.resume")
         consumer.resume(result)
     }
     // 目前的结果是 创建了很多的线程，有点不对哦

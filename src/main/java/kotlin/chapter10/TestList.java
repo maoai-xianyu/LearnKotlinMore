@@ -1,6 +1,5 @@
 package kotlin.chapter10;
 
-import org.apache.commons.beanutils.BeanUtils;
 import org.apache.commons.collections.CollectionUtils;
 
 import java.io.*;
@@ -11,12 +10,15 @@ import java.util.List;
 public class TestList {
 
     public static void main(String[] args) {
+
+
+        List<String> lsit = new ArrayList<>();
+        System.out.println(lsit.size());
         modelCopy();
         coll();
         collDeepNew();
         collDeep();
-        collBeautiful();
-
+        //collBeautiful();
     }
 
 
@@ -26,12 +28,6 @@ public class TestList {
             list.add(new P(i, "i " + i));
         }
 
-        // 方式一 不行
-        //ArrayList<P> listNew = (ArrayList<P>) list.clone();
-        // 方式二 Arrays copy 数组
-        // ArrayList<P> listNew = Arrays.asList(list);
-
-        // 方式三，可以，但是需要对象重写 clone 方法
         ArrayList<P> listNew = new ArrayList<>();
         for (P p : list) {
             try {
@@ -49,15 +45,10 @@ public class TestList {
             }
         }
 
-        for (P p : list) {
-            System.out.println(p);
-        }
+        System.out.println(" 旧 "+list);
+        System.out.println(" 新 "+listNew);
 
-        System.out.println("------");
-
-        for (P p : listNew) {
-            System.out.println(p);
-        }
+        System.out.println("---------------------");
     }
 
     private static void coll() {
@@ -84,21 +75,6 @@ public class TestList {
         System.out.println("新list值：" + newListP);
 
         System.out.println("---------------------");
-
-
-        List<Integer> list = new ArrayList<>();
-        for (int i = 0; i < 10; i++) {
-            list.add(i);
-        }
-
-        //list深度拷贝
-        List<Integer> newList = new ArrayList<>();
-        CollectionUtils.addAll(newList, new Object[list.size()]);
-        Collections.copy(newList, list);
-        newList.set(0, 10);
-
-        System.out.println("原list值：" + list);
-        System.out.println("新list值：" + newList);
     }
 
 
@@ -111,7 +87,6 @@ public class TestList {
         }
 
         ArrayList<PP> newListP = (ArrayList<PP>) listP.clone();
-        System.out.println(" newListP == listP 前" + (newListP == listP));
         if (newListP != null) {
             for (int i = 0; i < newListP.size(); i++) {
                 if (i == 1) {
@@ -121,18 +96,12 @@ public class TestList {
                     break;
                 }
             }
-            System.out.println(" newListP == listP 后" + (newListP == listP));
-
-            System.out.println("---------------------");
             System.out.println("循环赋值 原list值：" + listP);
             System.out.println("循环赋值 新list值：" + newListP);
         }
-
-
         System.out.println("---------------------");
 
     }
-
 
     private static void collDeep() {
         System.out.println("DeepCopyUtil -------- 深拷贝 需要实体类继承 Serializable");
@@ -151,14 +120,13 @@ public class TestList {
                     break;
                 }
             }
-
             System.out.println("原list值：" + listP);
             System.out.println("新list值：" + newListP);
         }
 
     }
 
-    private static void collBeautiful() {
+   /* private static void collBeautiful() {
         System.out.println("collBeautiful -------- 深拷贝 需要实体类继承 Serializable");
 
         List<PP> listP = new ArrayList<>();
@@ -185,7 +153,7 @@ public class TestList {
             e.printStackTrace();
         }
 
-    }
+    }*/
 
 
     static class P implements Cloneable {

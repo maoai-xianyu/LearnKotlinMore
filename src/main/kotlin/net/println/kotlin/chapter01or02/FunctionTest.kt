@@ -47,12 +47,45 @@ fun main(args: Array<String>): Unit { // ( Array<String>)->Unit
         println(it)
     }
     println("--------------")
-    arr.forEach {
+    /*arr.forEach {
         if (it == 2) return
         println(it)
-    }
+    }*/
     println("结束")
 
+    println("-------")
+
+
+    val a = a(b)
+    println("a $a")
+
+    val am = am(fun(param: Int): String {
+        return param.toString()
+    })
+    println("am $am")
+    println("am ${am(::bb)}")
+
+    val dddd = ::bb
+    println(dddd(1))
+
+
+    println(d(33))
+    println(dd(32))
+
+    aaa(1);
+
+    println("ssss")
+    println("-------")
+
+    val am1 = am(amm)
+    println("$am1")
+
+
+
+    html {
+        body()
+        h()
+    }
 }
 
 fun printUsemsg() {
@@ -88,4 +121,59 @@ var sum3 = { arg1: Int, arg2: Int ->
     arg1 + arg2
 }
 // (Int,Int)->Int
+
+
+fun a(str: (String) -> String): String {
+    return str.toString()
+}
+
+fun bb(param: Int): String {
+    return param.toString()
+}
+
+val b = { str: String -> str }
+
+val amm = { int: Int -> int.toString() }
+
+fun am(funParam: (Int) -> String): String {
+    return funParam(1)
+}
+
+
+val d = fun(param: Int): String {
+    return param.toString()
+}
+
+val dd = { param: Int -> param.toString() }
+
+val ddd: (Int) -> String = {
+    it.toString()
+}
+
+val aaa = fun(param: Int): String {
+    return param.toString()
+}
+
+
+
+class HTMLS {
+    fun body() {
+    }
+
+    fun h(){
+
+    }
+}
+
+//HTML.() -> Unit 声明[init函数]的[接收者]是[HTML类对象]
+fun html(init: HTMLS.() -> Unit): HTMLS {
+    val html = HTMLS() //创建接收者对象
+
+    //把[接收者对象html]传给[init函数/lambda表达式],并调用init函数
+    html.init()
+    return html
+}
+
+
+
 

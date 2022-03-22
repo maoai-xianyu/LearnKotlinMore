@@ -7,6 +7,7 @@ import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.HttpException
 import retrofit2.Response
+import java.io.InputStream
 import java.lang.Exception
 import kotlin.coroutines.*
 
@@ -141,4 +142,12 @@ suspend fun main() {
 
     getUserSuspend("maoai-xianyu")
 
+}
+
+suspend fun loadImage() {
+    /*val userImage = getGitHubApi.getUserImage().let {
+        val stream:InputStream = it.byteStream().use {
+            BitmapFactory.decodeStream(it)
+        }
+    }*/
 }
