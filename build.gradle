@@ -35,8 +35,9 @@ repositories {
 }
 
 dependencies {
-    implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk8"
-    implementation "org.jetbrains.kotlin:kotlin-reflect"
+    implementation 'org.jetbrains.kotlin:kotlin-stdlib:1.4.21'
+    implementation "org.jetbrains.kotlin:kotlin-reflect:1.4.21"
+    implementation 'org.jetbrains.kotlin:kotlin-stdlib-common:1.4.21'
     implementation "org.jetbrains.kotlinx:kotlinx-serialization-runtime:1.0-M1-1.4.0-rc-218"// JVM dependency
 
     implementation "com.squareup.retrofit2:retrofit:2.6.2"
@@ -59,6 +60,7 @@ dependencies {
     testCompile group: 'junit', name: 'junit', version: '4.12'
 
     implementation "com.github.appium:java-client:7.6.0"
+    implementation "org.testng:testng:7.1.0"
 }
 
 compileKotlin {
