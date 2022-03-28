@@ -1,7 +1,10 @@
 package net.println.kotlinnew.chapter07.eg.json.ks
 
-import kotlinx.serialization.*
+import kotlinx.serialization.ImplicitReflectionSerializer
+import kotlinx.serialization.Serializable
 import kotlinx.serialization.json.Json
+import kotlinx.serialization.parse
+import kotlinx.serialization.stringify
 
 // KS
 
@@ -18,9 +21,10 @@ data class PersonWithInits(val name: String, val age: Int){
 }
 
 
+@ImplicitReflectionSerializer
 fun main(){
-    println(Json.encodeToString(PersonWithInits("Benny Huo", 18)))
-    val personWithInits = Json.decodeFromString<PersonWithInits>("""{"name":"Benny Huo","age":20}""")
+    println(Json.stringify(PersonWithInits("Benny Huo", 18)))
+    val personWithInits = Json.parse<PersonWithInits>("""{"name":"Benny Huo","age":20}""")
 //    val personWithInits = Json.parse<PersonWithInits>("""{"name":"Benny Huo","age":20, "lastName":"Secret"}""")
     println(personWithInits.firstName)
     println(personWithInits.lastName)
