@@ -60,6 +60,7 @@ fun asyncLoop() {
 
 suspend fun suspend() {
     try {
+        println("当前协程的线程 "+Thread.currentThread().name)
         val userSuspend = getGitHubApi.getUserSuspend("maoai-xianyu")
         showUser(userSuspend)
     } catch (e: Exception) {
