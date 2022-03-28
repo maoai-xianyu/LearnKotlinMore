@@ -54,6 +54,7 @@ class AppiumTestUnitKt {
         Thread.sleep(15000)
         // 权限 弹框确定
         androidDriver.findElementById("com.handsgo.jiakao.android:id/permission_btn").click()
+        Thread.sleep(2000)
         // 权限 运行
         androidDriver.findElementById("com.lbe.security.miui:id/permission_allow_button_1").click()
         Thread.sleep(3000)
