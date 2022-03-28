@@ -1,5 +1,3 @@
-package appium
-
 import io.appium.java_client.TouchAction
 import org.testng.annotations.BeforeTest
 import java.net.MalformedURLException
