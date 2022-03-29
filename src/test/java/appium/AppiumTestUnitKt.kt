@@ -73,6 +73,37 @@ class AppiumTestUnitKt {
         Thread.sleep(10000)
     }
 
+    @Test
+    @Throws(InterruptedException::class)
+    fun testMultiSwipe(){
+
+        Thread.sleep(10000)
+        val touchAction = AndroidTouchAction(androidDriver)
+        // 把原始坐标转换成 PointOption
+        val option1 = PointOption.point(150,427)
+        val option2 = PointOption.point(362,427)
+        val option3 = PointOption.point(569,427)
+        val option4 = PointOption.point(369,525)
+        val option5 = PointOption.point(150,850)
+        val option6 = PointOption.point(362,850)
+        val option7 = PointOption.point(569,850)
+        // 把原始时间转换成 WaitOptions 类型
+       /* val waitOptions = WaitOptions.waitOptions(Duration.ofSeconds(2))
+        touchAction.press(optionStart)
+            .waitAction(waitOptions)
+            .moveTo(optionEnd)
+            .release()
+            .perform()
+
+        Thread.sleep(10000)*/
+        //z 字解锁 九宫格 1--  150  427   2-- 362  427  3-- 569 427
+        //九宫格 4--  369  525
+        // 5-- 150  850
+        // 6-- 362  850
+        // 7-- 569  850
+
+    }
+
 
     /**
     * 向上滑动
