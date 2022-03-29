@@ -9,11 +9,15 @@ import io.appium.java_client.android.AndroidElement
 import io.appium.java_client.android.AndroidTouchAction
 import io.appium.java_client.touch.WaitOptions
 import io.appium.java_client.touch.offset.PointOption
+import org.openqa.selenium.WebDriver
+import org.openqa.selenium.support.ui.ExpectedCondition
+import org.openqa.selenium.support.ui.WebDriverWait
 import java.lang.InterruptedException
 import org.testng.annotations.AfterTest
 import org.testng.annotations.Test
 import java.net.URL
 import java.time.Duration
+import java.util.concurrent.TimeUnit
 
 class AppiumTestUnitKt {
     @BeforeTest
@@ -44,34 +48,35 @@ class AppiumTestUnitKt {
             URL("http://127.0.0.1:4723/wd/hub"),
             desiredCapabilities
         )
-        // 启动服务，运行代码  会拉起应用
-        //Thread.sleep(10000)
+        // 30s 隐式等待
+        androidDriver.manage().timeouts().implicitlyWait(30,TimeUnit.SECONDS)
     }
 
     @Test
     @Throws(InterruptedException::class)
     fun testJiaKao() {
 
-        // 没有打开页面，先睡10秒
-        Thread.sleep(5000)
         // 1. 找到定位城市文本，并且点击
         androidDriver.findElementById("com.handsgo.jiakao.android:id/btn_agree").click()
-        Thread.sleep(15000)
+
+        // 显示等待 替换上面 需要培训下面的所有 先用隐式等待
+       /* val webDriverWait = WebDriverWait(androidDriver,10)
+        val element = webDriverWait.until<AndroidElement>(ExpectedCondition {
+            androidDriver.findElementById("com.handsgo.jiakao.android:id/btn_agree")
+        })
+        element.click()*/
+
         // 权限 弹框确定
         androidDriver.findElementById("com.handsgo.jiakao.android:id/permission_btn").click()
-        Thread.sleep(2000)
         // 权限 运行
         androidDriver.findElementById("com.lbe.security.miui:id/permission_allow_button_1").click()
-        Thread.sleep(3000)
         // 点击 重新选择 城市
         androidDriver.findElementById("com.handsgo.jiakao.android:id/tv_select_title").click()
-        Thread.sleep(2000)
         // 输入框输入北京
         //androidDriver.findElementById("com.handsgo.jiakao.android:id/edt_search_q").sendKeys("北京")
 
         // 结果值中有多个
         androidDriver.findElementById("com.handsgo.jiakao.android:id/edt_search_q").sendKeys("长")
-        Thread.sleep(2000)
         // 3. 找打搜索结果中的 北京 点击
         // 方案一： 默认点击的第一个，如果直接输入北京那只有一个直接点击就好，如果是多个，就默认是第一个
         // androidDriver.findElementById("com.handsgo.jiakao.android:id/item_title").click()
@@ -82,7 +87,7 @@ class AppiumTestUnitKt {
         findElements[2].click()*/
 
         // 方案三：根据文本值找到长沙  在 1.5 之后就不能使用了,有异常，用了 UIAutomator 替换
-        // androidDriver.findElementByName("长沙").click()
+        // androidDriver.findElementByName("长沙".click()t
 
         // 方案四:根据文本值，找到长沙   UIAutomator 原生自动化引擎
         //androidDriver.findElementByAndroidUIAutomator("new UiSelector().text(\"长沙\")").click()
@@ -91,20 +96,15 @@ class AppiumTestUnitKt {
         androidDriver.findElementByXPath("//android.widget.TextView[@text='长沙']").click()
 
         // 方案六：使用 accessibility id 找对应的元素 之后添加
-
-
         // 小车确定 默认选中
         // 滑动页面
         //   androidDriver.swipe  5.1.0 java-client  以下的方法在 之后没有了
         // 向上滑动
         swipeToUp(androidDriver, 2)
-        Thread.sleep(2000)
         // 5. 男生
         androidDriver.findElementById("com.handsgo.jiakao.android:id/tv_male").click()
         // 点击ok
         androidDriver.findElementById("com.handsgo.jiakao.android:id/tv_ok").click()
-
-        Thread.sleep(2000)
     }
 
 
