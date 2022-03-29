@@ -25,6 +25,10 @@ object AppiumTest {
         desiredCapabilities.setCapability("deviceName", "c890a5ce")
         // platformName 测试平台 Android or iOS
         desiredCapabilities.setCapability("platformName", "Android")
+        //
+        desiredCapabilities.setCapability("automationName","uiautomator2")
+        // noReset 每次进入应用，不清除应用数据 true 是不清除 默认是 false
+        desiredCapabilities.setCapability("noReset","true")
         // appPackage 找到要测试的app  驾考宝典
         desiredCapabilities.setCapability("appPackage", "com.handsgo.jiakao.android")
         // appActivity 测试启动app入口
@@ -39,7 +43,7 @@ object AppiumTest {
             desiredCapabilities
         )
         // 启动服务，运行代码  会拉起应用\
-        testJiaKao()
+        //testJiaKao()
     }
 
     fun testJiaKao() {

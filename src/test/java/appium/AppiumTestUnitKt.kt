@@ -27,6 +27,10 @@ class AppiumTestUnitKt {
         */desiredCapabilities.setCapability("deviceName", "c890a5ce")
         // platformName 测试平台 Android or iOS
         desiredCapabilities.setCapability("platformName", "Android")
+        // uiautomator2 解决输入框输入不了数据  但是目前是可以的
+        desiredCapabilities.setCapability("automationName","uiautomator2")
+        // noReset 每次进入应用，不清除应用数据 true 是不清除 默认是 false 和  Thread.sleep(10000) 配合，需要 @Test(enabled = false)
+        //desiredCapabilities.setCapability("noReset","true")
         // appPackage 找到要测试的app  驾考宝典
         desiredCapabilities.setCapability("appPackage", "com.handsgo.jiakao.android")
         // appActivity 测试启动app入口
@@ -41,6 +45,7 @@ class AppiumTestUnitKt {
             desiredCapabilities
         )
         // 启动服务，运行代码  会拉起应用
+        //Thread.sleep(10000)
     }
 
     @Test
@@ -80,7 +85,13 @@ class AppiumTestUnitKt {
         // androidDriver.findElementByName("长沙").click()
 
         // 方案四:根据文本值，找到长沙   UIAutomator 原生自动化引擎
-        androidDriver.findElementByAndroidUIAutomator("new UiSelector().text(\"长沙\")").click()
+        //androidDriver.findElementByAndroidUIAutomator("new UiSelector().text(\"长沙\")").click()
+
+        // 方案五：使用 xpath 进行元素定位，这种方式是推荐的，有绝对定位和相对定位
+        androidDriver.findElementByXPath("//android.widget.TextView[@text='长沙']").click()
+
+        // 方案六：使用 accessibility id 找对应的元素 之后添加
+
 
         // 小车确定 默认选中
         // 滑动页面
