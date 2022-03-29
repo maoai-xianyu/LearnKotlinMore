@@ -62,10 +62,26 @@ class AppiumTestUnitKt {
         androidDriver.findElementById("com.handsgo.jiakao.android:id/tv_select_title").click()
         Thread.sleep(2000)
         // 输入框输入北京
-        androidDriver.findElementById("com.handsgo.jiakao.android:id/edt_search_q").sendKeys("北京")
+        //androidDriver.findElementById("com.handsgo.jiakao.android:id/edt_search_q").sendKeys("北京")
+
+        // 结果值中有多个
+        androidDriver.findElementById("com.handsgo.jiakao.android:id/edt_search_q").sendKeys("长")
         Thread.sleep(2000)
         // 3. 找打搜索结果中的 北京 点击
-        androidDriver.findElementById("com.handsgo.jiakao.android:id/item_title").click()
+        // 方案一： 默认点击的第一个，如果直接输入北京那只有一个直接点击就好，如果是多个，就默认是第一个
+        // androidDriver.findElementById("com.handsgo.jiakao.android:id/item_title").click()
+
+        // 方案二：多个相同的 id 值，放到集合中，通过索引回去，对应应用
+        /*val findElements: List<AndroidElement> =
+            androidDriver.findElementsById("com.handsgo.jiakao.android:id/item_title")
+        findElements[2].click()*/
+
+        // 方案三：根据文本值找到长沙  在 1.5 之后就不能使用了,有异常，用了 UIAutomator 替换
+        // androidDriver.findElementByName("长沙").click()
+
+        // 方案四:根据文本值，找到长沙   UIAutomator 原生自动化引擎
+        androidDriver.findElementByAndroidUIAutomator("new UiSelector().text(\"长沙\")").click()
+
         // 小车确定 默认选中
         // 滑动页面
         //   androidDriver.swipe  5.1.0 java-client  以下的方法在 之后没有了
@@ -76,6 +92,8 @@ class AppiumTestUnitKt {
         androidDriver.findElementById("com.handsgo.jiakao.android:id/tv_male").click()
         // 点击ok
         androidDriver.findElementById("com.handsgo.jiakao.android:id/tv_ok").click()
+
+        Thread.sleep(2000)
     }
 
 
