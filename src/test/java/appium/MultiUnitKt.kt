@@ -1,18 +1,23 @@
 package appium
 
+import appium.ConfigSys.Companion.DIR_SCREENSHOT
 import io.appium.java_client.MultiTouchAction
 import io.appium.java_client.android.AndroidDriver
 import io.appium.java_client.android.AndroidElement
 import io.appium.java_client.android.AndroidTouchAction
 import io.appium.java_client.touch.WaitOptions
 import io.appium.java_client.touch.offset.PointOption
+import org.openqa.selenium.OutputType
 import org.openqa.selenium.remote.DesiredCapabilities
 import org.testng.annotations.AfterTest
 import org.testng.annotations.BeforeTest
 import org.testng.annotations.Test
+import java.io.File
 import java.net.MalformedURLException
 import java.net.URL
+import java.text.SimpleDateFormat
 import java.time.Duration
+import java.util.*
 import java.util.concurrent.TimeUnit
 
 class MultiUnitKt {
@@ -49,12 +54,44 @@ class MultiUnitKt {
         )
         // 30s 隐式等待
         androidDriver.manage().timeouts().implicitlyWait(30, TimeUnit.SECONDS)
-
-        // 30s 隐式等待
-        androidDriver.manage().timeouts().implicitlyWait(30, TimeUnit.SECONDS)
     }
 
+
     @Test
+    fun testApi() {
+
+        Thread.sleep(5000)
+
+        println(" 百度地图 dom ${androidDriver.pageSource}")
+
+        // 会报安全问题 java.lang.SecurityException: Permission Denial:
+        /*val activity = Activity("com.baidu.BaiduMap", "com.baidu.sapi2.activity.LoginActivity")
+        androidDriver.startActivity(activity)*/
+
+        //跳转驾考宝典
+        /*val activity = Activity("com.handsgo.jiakao.android", "com.handsgo.jiakao.android.splash.Login")
+        androidDriver.startActivity(activity)*/
+
+
+        println(" -------------------\n")
+
+        //println(" 驾考 dom ${androidDriver.pageSource}")
+        println(" 当前 activity dom ${androidDriver.currentActivity()}")
+        println(" 当前 activity dom ${androidDriver.isAppInstalled("com.handsgo.jiakao.android")}")
+
+
+       /* val screenshotAs = androidDriver.getScreenshotAs(OutputType.FILE)
+        FileUtils.copyFile(screenshotAs, File("../../../../file/test.png"))*/
+
+        val now = SimpleDateFormat("yyyy-MM-dd_HH:mm:ss")
+        val property = System.getProperty("user.dir", "/KotlinLearnMore/")
+        val screenshotFile = androidDriver.getScreenshotAs(OutputType.FILE).copyTo(
+            File("${property}/screenshots", "${now.format(Date(System.currentTimeMillis()))}.png")
+        )
+    }
+
+
+    @Test(enabled = false)
     fun testBaiduMapToZoom() {
 
         val findElementByXPath =
@@ -93,14 +130,14 @@ class MultiUnitKt {
 
         // 3.  第一个手指   B <-> A  第二个手指 C <--> D
         // 确定 B  和  A 的位置
-        touchAction1.press(PointOption.point(x*4/10, y*4/10))
+        touchAction1.press(PointOption.point(x * 4 / 10, y * 4 / 10))
             .waitAction(WaitOptions.waitOptions(Duration.ofSeconds(2)))
-            .moveTo(PointOption.point(x*2/10, y*2/10))
+            .moveTo(PointOption.point(x * 2 / 10, y * 2 / 10))
             .release()
         // 确定 C 和 D 的位置
-        touchAction2.press(PointOption.point(x*6/10, y*6/10))
+        touchAction2.press(PointOption.point(x * 6 / 10, y * 6 / 10))
             .waitAction(WaitOptions.waitOptions(Duration.ofSeconds(2)))
-            .moveTo(PointOption.point(x*8/10, y*8/10))
+            .moveTo(PointOption.point(x * 8 / 10, y * 8 / 10))
             .release()
         multiTouchAction.add(touchAction1).add(touchAction2)
         multiTouchAction.perform()
