@@ -85,7 +85,7 @@ class MultiUnitKt {
 
         val now = SimpleDateFormat("yyyy-MM-dd_HH:mm:ss")
         val property = System.getProperty("user.dir", "/KotlinLearnMore/")
-        val screenshotFile = androidDriver.getScreenshotAs(OutputType.FILE).copyTo(
+        androidDriver.getScreenshotAs(OutputType.FILE).copyTo(
             File("${property}/screenshots", "${now.format(Date(System.currentTimeMillis()))}.png")
         )
     }

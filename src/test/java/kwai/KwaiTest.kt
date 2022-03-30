@@ -2,6 +2,7 @@ package kwai
 
 import io.appium.java_client.android.AndroidDriver
 import io.appium.java_client.android.AndroidElement
+import org.openqa.selenium.By
 import org.openqa.selenium.remote.DesiredCapabilities
 import org.testng.annotations.AfterTest
 import org.testng.annotations.BeforeTest
@@ -67,6 +68,12 @@ class KwaiTest {
         println("打开快手榜单")
 
         Thread.sleep(10000)
+
+        val str = "new UiSelector.text(\"%s\")"
+        println(str.format("热榜"))
+        //androidDriver.findElement(By.linkText(str.format("热榜")))
+
+        androidDriver.findElementByAndroidUIAutomator(str.format("热榜"))
     }
 
 
