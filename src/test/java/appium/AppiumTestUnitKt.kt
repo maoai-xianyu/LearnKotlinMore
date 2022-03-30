@@ -34,7 +34,7 @@ class AppiumTestUnitKt {
         // uiautomator2 解决输入框输入不了数据  但是目前是可以的
         desiredCapabilities.setCapability("automationName","uiautomator2")
         // noReset 每次进入应用，不清除应用数据 true 是不清除 默认是 false 和  Thread.sleep(10000) 配合，需要 @Test(enabled = false)
-        desiredCapabilities.setCapability("noReset","true")
+        desiredCapabilities.setCapability("noReset",true)
         // appPackage 找到要测试的app  驾考宝典
         desiredCapabilities.setCapability("appPackage", "com.handsgo.jiakao.android")
         // appActivity 测试启动app入口
@@ -73,7 +73,8 @@ class AppiumTestUnitKt {
         Thread.sleep(10000)
     }
 
-    @Test
+    //  需要修改 修改对应的app 目前没有，就先放在这里处理
+    @Test(enabled = false)
     @Throws(InterruptedException::class)
     fun testMultiSwipe(){
 
@@ -87,8 +88,6 @@ class AppiumTestUnitKt {
         val option5 = PointOption.point(150,850)
         val option6 = PointOption.point(362,850)
         val option7 = PointOption.point(569,850)
-        // 把原始时间转换成 WaitOptions 类型
-        val waitOptions = WaitOptions.waitOptions(Duration.ofSeconds(2))
         touchAction.press(option1)
             .moveTo(option2)
             .moveTo(option3)
@@ -105,7 +104,6 @@ class AppiumTestUnitKt {
         // 5-- 150  850
         // 6-- 362  850
         // 7-- 569  850
-
     }
 
 
