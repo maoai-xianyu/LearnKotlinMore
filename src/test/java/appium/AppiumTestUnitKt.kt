@@ -88,14 +88,18 @@ class AppiumTestUnitKt {
         val option6 = PointOption.point(362,850)
         val option7 = PointOption.point(569,850)
         // 把原始时间转换成 WaitOptions 类型
-       /* val waitOptions = WaitOptions.waitOptions(Duration.ofSeconds(2))
-        touchAction.press(optionStart)
-            .waitAction(waitOptions)
-            .moveTo(optionEnd)
+        val waitOptions = WaitOptions.waitOptions(Duration.ofSeconds(2))
+        touchAction.press(option1)
+            .moveTo(option2)
+            .moveTo(option3)
+            .moveTo(option4)
+            .moveTo(option5)
+            .moveTo(option6)
+            .moveTo(option7)
             .release()
             .perform()
 
-        Thread.sleep(10000)*/
+        Thread.sleep(10000)
         //z 字解锁 九宫格 1--  150  427   2-- 362  427  3-- 569 427
         //九宫格 4--  369  525
         // 5-- 150  850
