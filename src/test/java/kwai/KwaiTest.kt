@@ -49,7 +49,7 @@ class KwaiTest {
 
 
     @Test
-    fun testApi() {
+    fun testApiKai() {
 
         println(" 当前 activity dom ${androidDriver.currentActivity()}")
 
@@ -71,9 +71,16 @@ class KwaiTest {
 
         val str = "new UiSelector.text(\"%s\")"
         println(str.format("热榜"))
-        //androidDriver.findElement(By.linkText(str.format("热榜")))
+        //androidDriver.findElement(By.xpath("//android.widget.TextView[@text = '热榜']"))
 
-        androidDriver.findElementByAndroidUIAutomator(str.format("热榜"))
+        androidDriver.findElementByAndroidUIAutomator("new UiSelector().text(\"热榜\")")
+
+
+        /* val hot = androidDriver.findElementByAndroidUIAutomator("new UiSelector.text(\"热榜\")")
+
+         androidDriver.findElementByAndroidUIAutomator("new UiSelector().text(\"长沙\")").click()
+         println(hot.text)*/
+
     }
 
 
